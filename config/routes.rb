@@ -1,16 +1,26 @@
+# == Route Map
+#
+#             Prefix Verb   URI Pattern                      Controller#Action
+#        new_session GET    /session/new(.:format)           sessions#new
+#       edit_session GET    /session/edit(.:format)          sessions#edit
+#            session GET    /session(.:format)               sessions#show
+#                    PATCH  /session(.:format)               sessions#update
+#                    PUT    /session(.:format)               sessions#update
+#                    DELETE /session(.:format)               sessions#destroy
+#                    POST   /session(.:format)               sessions#create
+#          passwords GET    /passwords(.:format)             passwords#index
+#                    POST   /passwords(.:format)             passwords#create
+#       new_password GET    /passwords/new(.:format)         passwords#new
+#      edit_password GET    /passwords/:token/edit(.:format) passwords#edit
+#           password GET    /passwords/:token(.:format)      passwords#show
+#                    PATCH  /passwords/:token(.:format)      passwords#update
+#                    PUT    /passwords/:token(.:format)      passwords#update
+#                    DELETE /passwords/:token(.:format)      passwords#destroy
+# rails_health_check GET    /up(.:format)                    rails/health#show
+
 Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
