@@ -3,7 +3,7 @@
 require "line/bot"
 
 class WebhookController < ApplicationController
-  COMMANDS = [ RecordPaymentCommand ].freeze
+  COMMANDS = [ RecordPaymentCommand, SummaryCommand ].freeze
 
   allow_unauthenticated_access
   protect_from_forgery except: [ :callback ]
@@ -26,11 +26,12 @@ class WebhookController < ApplicationController
         when Line::Bot::V2::Webhook::TextMessageContent
           text = event.message.text.strip
           line_user_id = event.source.user_id
+          group_id = event.source.try(:group_id)
 
           command_class = COMMANDS.find { |cmd| cmd.match?(text) }
           next unless command_class
 
-          reply_text = command_class.call(line_user_id:, text:)
+          reply_text = command_class.call(line_user_id:, group_id:, text:)
 
           reply = Line::Bot::V2::MessagingApi::ReplyMessageRequest.new(
             reply_token: event.reply_token,

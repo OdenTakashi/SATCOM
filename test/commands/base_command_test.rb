@@ -8,7 +8,7 @@ class BaseCommandTest < ActiveSupport::TestCase
     klass.const_set(:PATTERN, /\A\/(\d+)\z/)
 
     assert_raises(NotImplementedError) do
-      klass.call(line_user_id: "U123", text: "/500")
+      klass.call(line_user_id: "U123", group_id: "G456", text: "/500")
     end
   end
 end
