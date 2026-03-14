@@ -16,6 +16,7 @@
 #                    PATCH  /passwords/:token(.:format)      passwords#update
 #                    PUT    /passwords/:token(.:format)      passwords#update
 #                    DELETE /passwords/:token(.:format)      passwords#destroy
+#           callback POST   /callback(.:format)              webhook#callback
 # rails_health_check GET    /up(.:format)                    rails/health#show
 
 Rails.application.routes.draw do
