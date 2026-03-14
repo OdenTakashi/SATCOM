@@ -5,7 +5,6 @@ require "line/bot"
 class WebhookController < ApplicationController
   COMMANDS = [ RecordPaymentCommand, SummaryCommand ].freeze
 
-  allow_unauthenticated_access
   protect_from_forgery except: [ :callback ]
 
   def callback
