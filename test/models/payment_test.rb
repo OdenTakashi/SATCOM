@@ -6,6 +6,7 @@
 #  amount       :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  group_id     :string
 #  line_user_id :string
 #
 require "test_helper"
