@@ -42,3 +42,5 @@ group :development do
   gem "web-console"
   gem "annotaterb", github: "drwl/annotaterb", branch: "main"
 end
+
+gem "dockerfile-rails", ">= 1.7", group: :development
