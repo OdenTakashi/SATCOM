@@ -1,24 +1,100 @@
-# README
+# SATCOM
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A tiny LINE bot that helps you prepare for month-end peace.
 
-Things you may want to cover:
+## How It Works
 
-* Ruby version
+Send `/<amount>` to record an expense, send `/` to see the summary.
 
-* System dependencies
+Billing period starts on the 25th of each month.
 
-* Configuration
+### Example
 
-* Database creation
+```
+You:  /500
+Bot:  500円の立替、記録したぜ。オーバー!
 
-* Database initialization
+You:  /1200
+Bot:  1200円の立替、記録したぜ。オーバー!
 
-* How to run the test suite
+You:  /
+Bot:  --- 集計 (02/25〜) ---
+      たかし: 28300円
+      はなこ: 29000円
+      オーバー!
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Commands
 
-* Deployment instructions
+| Command | Description |
+|---------|-------------|
+| `/<amount>` | Record an expense (e.g. `/500`) |
+| `/` | Show monthly summary (remaining budget per member) |
 
-* ...
+## Tech Stack
+
+| Component | Choice |
+|-----------|--------|
+| Framework | Rails 8.1 |
+| Ruby | 4.0.1 |
+| Database | SQLite3 |
+| LINE SDK | line-bot-api v2 |
+| Deploy | Fly.io (Docker) |
+
+## Setup
+
+### Prerequisites
+
+- Ruby 4.0.1
+- LINE Messaging API channel (LINE Developers Console)
+
+### Local Development
+
+```bash
+git clone <repo-url>
+cd SATCOM
+bin/setup
+# Edit .env with your credentials
+```
+
+### Run Tests
+
+```bash
+bin/rails test
+```
+
+### Start Server
+
+```bash
+bin/rails server
+curl http://localhost:3000/up  # Health check
+```
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `LINE_CHANNEL_TOKEN` | Yes | LINE Messaging API channel access token |
+| `LINE_CHANNEL_SECRET` | Yes | LINE Messaging API channel secret |
+
+## Architecture
+
+```
+LINE App -> POST /callback
+  -> WebhookController
+    -> Parse & verify signature
+      -> RecordPaymentCommand (/<amount>)  -> Save to DB -> reply
+      -> SummaryCommand (/)                -> Query DB   -> reply
+```
+
+## Deploy
+
+```bash
+fly deploy
+```
+
+SQLite data is stored on a Fly.io persistent volume (`satcom_data`), so data persists across deploys.
+
+## License
+
+MIT
