@@ -22,5 +22,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
 
+  post "/callback" => "webhook#callback"
+
   get "up" => "rails/health#show", as: :rails_health_check
 end
