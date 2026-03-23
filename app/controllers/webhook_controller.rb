@@ -3,7 +3,7 @@
 require "line/bot"
 
 class WebhookController < ApplicationController
-  COMMANDS = [ RecordPaymentCommand, SummaryCommand ].freeze
+  COMMANDS = [ HelpCommand, RecordPaymentCommand, SummaryCommand ].freeze
 
   protect_from_forgery except: [ :callback ]
 
