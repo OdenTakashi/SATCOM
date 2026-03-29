@@ -133,7 +133,7 @@ GEM
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
     language_server-protocol (3.17.0.5)
-    line-bot-api (2.5.0)
+    line-bot-api (2.6.1)
       base64 (~> 0.2)
       multipart-post (~> 2.4)
     lint_roller (1.1.0)
@@ -329,7 +329,7 @@ DEPENDENCIES
   dockerfile-rails (>= 1.7)
   dotenv-rails
   importmap-rails
-  line-bot-api (~> 2.5.0)
+  line-bot-api (~> 2.6.1)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.2)
@@ -380,7 +380,7 @@ CHECKSUMS
   json (2.19.1) sha256=dd94fdc59e48bff85913829a32350b3148156bc4fd2a95a2568a78b11344082d
   json-schema (6.2.0) sha256=e8bff46ed845a22c1ab2bd0d7eccf831c01fe23bb3920caa4c74db4306813666
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
-  line-bot-api (2.5.0) sha256=31c56f18adba098e3bd4f334a6d681cbc72aa6497849b1ca2fb088668c67bbfc
+  line-bot-api (2.6.1) sha256=2c237ce6ce30f3992b3be4c188c3cf02f74c3ac226db16ed3696e2efcfc1a9d8
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   loofah (2.25.0) sha256=df5ed7ac3bac6a4ec802df3877ee5cc86d027299f8952e6243b3dac446b060e6
