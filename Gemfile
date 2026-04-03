@@ -12,7 +12,7 @@ gem "puma", ">= 5.0"
 gem "importmap-rails"
 
 # LINE Bot SDK [https://github.com/line/line-bot-sdk-ruby]
-gem "line-bot-api", "~> 2.5.0"
+gem "line-bot-api", "~> 2.6.1"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
