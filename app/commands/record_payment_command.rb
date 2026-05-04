@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RecordPaymentCommand < BaseCommand
-  PATTERN = /\A\/(\d+)\z/
+  PATTERN = /\A\/(-?\d+)\z/
 
   def call
     if Payment.new(line_user_id:, group_id:, amount:).save
