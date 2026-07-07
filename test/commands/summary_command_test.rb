@@ -7,6 +7,11 @@ class SummaryCommandTest < ActiveSupport::TestCase
     assert SummaryCommand.match?("/")
   end
 
+  test "match? returns true for / with period" do
+    assert SummaryCommand.match?("/ 2026-05-25 2026-06-25")
+    assert SummaryCommand.match?("/ 5/25 6/25")
+  end
+
   test "match? returns false for non-command text" do
     assert_not SummaryCommand.match?("summary")
     assert_not SummaryCommand.match?("/ ")
@@ -57,10 +62,36 @@ class SummaryCommandTest < ActiveSupport::TestCase
     end
   end
 
+  test "call uses explicit period when passed" do
+    travel_to Time.zone.local(2026, 7, 7) do
+      Payment.create!(line_user_id: "U123", group_id: "G456", amount: 1111, created_at: Time.zone.local(2026, 5, 24, 23, 59, 59))
+      Payment.create!(line_user_id: "U123", group_id: "G456", amount: 500, created_at: Time.zone.local(2026, 5, 25))
+      Payment.create!(line_user_id: "U123", group_id: "G456", amount: 300, created_at: Time.zone.local(2026, 6, 24, 23, 59, 59))
+      Payment.create!(line_user_id: "U123", group_id: "G456", amount: 2222, created_at: Time.zone.local(2026, 6, 25))
+
+      result = build_command(text: "/ 2026-05-25 2026-06-25").call
+
+      assert_includes result, "--- 集計 (05/25〜06/25) ---"
+      assert_includes result, "U123: 29200円"
+      assert_not_includes result, "2667"
+    end
+  end
+
+  test "call uses current year for explicit month and day period" do
+    travel_to Time.zone.local(2026, 7, 7) do
+      Payment.create!(line_user_id: "U123", group_id: "G456", amount: 800, created_at: Time.zone.local(2026, 5, 25))
+
+      result = build_command(text: "/ 5/25 6/25").call
+
+      assert_includes result, "--- 集計 (05/25〜06/25) ---"
+      assert_includes result, "U123: 29200円"
+    end
+  end
+
   private
 
-  def build_command(names: {})
-    command = SummaryCommand.new(line_user_id: "U123", group_id: "G456", match_data: SummaryCommand::PATTERN.match("/"))
+  def build_command(names: {}, text: "/")
+    command = SummaryCommand.new(line_user_id: "U123", group_id: "G456", match_data: SummaryCommand::PATTERN.match(text))
     if names.any?
       command.define_singleton_method(:display_name) { |uid| names.fetch(uid, uid) }
     else
