@@ -30,6 +30,8 @@ class WebhookController < ApplicationController
           command_class = COMMANDS.find { |cmd| cmd.match?(text) }
           next unless command_class
 
+          RentAndUtilitiesReminder.maybe_send(group_id:, client:)
+
           reply_text = command_class.call(line_user_id:, group_id:, text:)
 
           reply = Line::Bot::V2::MessagingApi::ReplyMessageRequest.new(

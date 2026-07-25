@@ -6,7 +6,7 @@ A tiny LINE bot that helps you prepare for month-end peace.
 
 Send `/<amount>` to record an expense, send `/` to see the summary.
 
-Billing period starts on the 25th of each month. On the 25th, the bot also sends a reminder to report rent and utilities.
+Billing period starts on the 25th of each month. On the 25th, the first command in a group triggers a reminder to report rent and utilities.
 
 ### Example
 
@@ -76,8 +76,6 @@ curl http://localhost:3000/up  # Health check
 |----------|----------|-------------|
 | `LINE_CHANNEL_TOKEN` | Yes | LINE Messaging API channel access token |
 | `LINE_CHANNEL_SECRET` | Yes | LINE Messaging API channel secret |
-| `CRON_SECRET` | Yes (prod) | Bearer token for the monthly reminder endpoint |
-| `LINE_GROUP_ID` | No | Fallback group ID when no payments exist yet |
 
 ## Architecture
 
@@ -85,12 +83,9 @@ curl http://localhost:3000/up  # Health check
 LINE App -> POST /callback
   -> WebhookController
     -> Parse & verify signature
+      -> RentAndUtilitiesReminder (25th, once per group) -> push
       -> RecordPaymentCommand (/<amount>)  -> Save to DB -> reply
       -> SummaryCommand (/)                -> Query DB   -> reply
-
-GitHub Actions (25th 09:00 JST)
-  -> POST /internal/reminders/rent_and_utilities
-    -> RentAndUtilitiesReminder -> Push message to LINE group(s)
 ```
 
 ## Deploy
