@@ -7,5 +7,9 @@
 Rails.application.routes.draw do
   post "/callback" => "webhook#callback"
 
+  namespace :internal do
+    post "reminders/rent_and_utilities" => "reminders#rent_and_utilities"
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end
